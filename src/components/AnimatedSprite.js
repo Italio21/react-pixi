@@ -5,7 +5,7 @@ const AnimatedSprite = (root, props) => {
   const { textures, images, isPlaying = true, initialFrame } = props
   const makeTexture = textures => textures.map(texture => getTextureFromProps('AnimatedSprite', { texture }))
 
-  const animatedSprite = images ? PixiAnimatedSprite.fromImages(images) : new PixiAnimatedSprite(makeTexture(textures))
+  const animatedSprite = images ? PixiAnimatedSprite.fromImages(images) : new PixiAnimatedSprite(textures)
   animatedSprite[isPlaying ? 'gotoAndPlay' : 'gotoAndStop'](initialFrame || 0)
   animatedSprite.applyProps = (instance, oldProps, newProps) => {
     const { textures, isPlaying, initialFrame, ...props } = newProps
@@ -13,7 +13,7 @@ const AnimatedSprite = (root, props) => {
     applyDefaultProps(instance, oldProps, props)
 
     if (textures && oldProps['textures'] !== textures) {
-      instance.textures = makeTexture(textures)
+      instance.textures = textures
     }
 
     if (isPlaying !== oldProps.isPlaying || initialFrame !== oldProps.initialFrame) {
